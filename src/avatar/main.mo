@@ -48,6 +48,7 @@ actor class () {
         #AlreadyExists;
         #NotAuthorized;
     };
+    
     type DeleteAssetArguments = {
         key: Text;
     };
@@ -81,10 +82,9 @@ actor class () {
             userProfile
         );
 
-
-        switch(profile.image){
+        switch(profile.image) {
             case null {};
-            case (? v){
+            case (? v) {
                 var fileName = "/images/";
                 fileName := Text.concat(fileName, Principal.toText(callerId));
                 fileName := Text.concat(fileName, "/");
@@ -241,14 +241,16 @@ actor class () {
         };
     };
 
+    public query func remaining_cycles() : async Nat {
+        return Cycles.balance()
+    };
+    
     private func key(x : Principal) : Trie.Key<Principal> {
         return { key = x; hash = Principal.hash(x) }
     };
+    
     private func keyText(x : Text) : Trie.Key<Text> {
         return { key = x; hash = Text.hash(x) }
     };
 
-    public query func remaining_cycles() : async Nat {
-        return Cycles.balance()
-    };
 }
